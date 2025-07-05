@@ -45,7 +45,7 @@ Training Parameters:
 
 ---
 
-## 📋 System Requirements
+## 📋 System Requirements (AI Gen)
 
 ### **Hardware Requirements**
 
