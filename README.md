@@ -12,6 +12,10 @@ This comprehensive guide covers the **Custom IP-Adapter Training Kit** - a compl
 - 🎨 **Production Ready**: Convert and use trained models
 - 📖 **Comprehensive Documentation**: Step-by-step guides
 
+![fig](https://github.com/user-attachments/assets/20e0e38e-d14b-407c-9cfe-271d1010cef1)
+
+
+
 ---
 
 ## 🏗️ Model Architecture & Specifications
