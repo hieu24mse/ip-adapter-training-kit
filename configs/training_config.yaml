@@ -1,0 +1,110 @@
+# IP-Adapter Training Configuration
+# This file contains preset configurations for different training scenarios
+
+# Base configuration - common settings
+base:
+  pretrained_model_name_or_path: "runwayml/stable-diffusion-v1-5"
+  image_encoder_path: "openai/clip-vit-large-patch14"
+  resolution: 512
+  learning_rate: 1e-4
+  weight_decay: 1e-2
+  mixed_precision: "fp16"  # Use "no" for Mac/MPS
+  dataloader_num_workers: 0
+  
+  # Data augmentation
+  t_drop_rate: 0.05    # Text dropout rate
+  i_drop_rate: 0.05    # Image dropout rate  
+  ti_drop_rate: 0.05   # Text+image dropout rate
+
+# Mini dataset configuration (5-50 samples)
+mini:
+  train_batch_size: 1
+  num_train_epochs: 10
+  save_steps: 5
+  logging_steps: 1
+  gradient_accumulation_steps: 1
+  max_train_steps: null
+  
+# Small dataset configuration (50-500 samples)  
+small:
+  train_batch_size: 2
+  num_train_epochs: 25
+  save_steps: 50
+  logging_steps: 10
+  gradient_accumulation_steps: 2
+  max_train_steps: null
+
+# Medium dataset configuration (500-5000 samples)
+medium:
+  train_batch_size: 4
+  num_train_epochs: 50
+  save_steps: 500
+  logging_steps: 100
+  gradient_accumulation_steps: 1
+  max_train_steps: null
+
+# Large dataset configuration (5000+ samples)
+large:
+  train_batch_size: 8
+  num_train_epochs: 100
+  save_steps: 1000
+  logging_steps: 200
+  gradient_accumulation_steps: 1
+  max_train_steps: null
+
+# Memory optimization settings
+memory_optimization:
+  # For limited VRAM (8GB)
+  low_vram:
+    train_batch_size: 1
+    gradient_accumulation_steps: 4
+    mixed_precision: "fp16"
+    gradient_checkpointing: true
+    
+  # For medium VRAM (12GB)  
+  medium_vram:
+    train_batch_size: 2
+    gradient_accumulation_steps: 2
+    mixed_precision: "fp16"
+    gradient_checkpointing: false
+    
+  # For high VRAM (16GB+)
+  high_vram:
+    train_batch_size: 4
+    gradient_accumulation_steps: 1
+    mixed_precision: "bf16"
+    gradient_checkpointing: false
+
+# Learning rate scheduling
+lr_scheduler:
+  # Constant learning rate
+  constant:
+    lr_scheduler_type: "constant"
+    lr_warmup_steps: 0
+    
+  # Linear warmup then decay
+  linear:
+    lr_scheduler_type: "linear"
+    lr_warmup_steps: 500
+    
+  # Cosine annealing
+  cosine:
+    lr_scheduler_type: "cosine"
+    lr_warmup_steps: 1000
+
+# Logging and monitoring
+logging:
+  report_to: "tensorboard"  # Options: tensorboard, wandb, none
+  logging_dir: "logs"
+  log_predictions: true
+  log_predictions_steps: 500
+
+# Validation settings
+validation:
+  validation_steps: 500
+  num_validation_images: 4
+  validation_prompts:
+    - "A beautiful landscape"
+    - "Professional portrait"
+    - "Modern architecture"
+    - "Abstract art" 
